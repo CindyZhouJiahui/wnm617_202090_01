@@ -1,11 +1,29 @@
+.title{
+	color: #17c9e8;
+}
 nav a{
 	background-color:#17c9e8;
-	color: pink;
 	border-radius: 30px;
-
 }
 h1,
 h2,
 h3{
 	color: #17c9e8;
+	font-family: 'PT Serif', serif;
+}
+.header-container,
+.footer-container,
+.main aside {
+	background-color:#b4f1ff;
+	border-bottom:20px solid #17c9e8;
+	border-top: 20px solid #17c9e8;
+
+}
+p{
+	color:#17c9e8;
+}
+.header-container,
+.footer-container,
+.main aside {
+    background: #b4f1ff;
 }
