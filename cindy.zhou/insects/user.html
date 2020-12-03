@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>user</title>
+    <link rel="stylesheet" href="css/reset.css" />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <div class="user">
+      <div class="content">
+          <div class="tit">User profile</div>
+
+          <div class="tx">
+              <img id="img" src="images/rose2.png" alt="" />
+          </div>
+
+          <div class="user-box">
+              <div>Name：<span id="nickname"></span></div>
+              <div>Gender：<span id="sex"></span></div>
+              <div>Age：<span id="age"></span></div>
+              <div>Email：<span id="email"></span></div>
+              <div>Status：<span id="status"></span></div>
+              <div>Location：<span id="location"></span></div>
+
+              <div class="but-box">
+                  <a href="setting.html">Setting</a>
+                  <a href="logout.php">Logout</a>
+              </div>
+          </div>
+      </div>
+
+        <div class="bottom">
+            <a href="index.html"><img src="images/map.png" alt="" /></a>
+            <a href="list.html"><img src="images/list.png" alt="" /></a>
+            <a href="#"><img src="images/user.png" alt="" /></a>
+        </div>
+    </div>
+  </body>
+
+  <script src="./js/jquery-3.4.1.min.js"></script>
+  <script src="./js/setting.js"></script>
+
+  <script>
+      $.ajax({
+          url:"api.php",
+          type: "post",
+          data: {
+              type: "edit_info"
+          },
+          success: function (res) {
+              var res = JSON.parse(res);
+              if(res.code == 1){
+                  var data = res.data;
+                  $("#age").text(data.age);
+                  $("#nickname").text(data.nickname)
+                  $("#email").text(data.email)
+                  $("#sex").text(data.sex)
+                  $("#location").text(data.location)
+                  $("#status").text(data.status)
+                  $(".user #img").attr("src", data.head)
+              }else{
+                  window.location.href = "sign_in.html";
+              }
+          }
+      })
+  </script>
+</html>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Setting</title>
+    <link rel="stylesheet" href="css/reset.css" />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <div class="detail">
+      <div class="header">
+          <a href="javascript:history.go(-1);"><img src="images/return.png" alt=""></a>
+          Change Profile Info
+      </div>
+
+        <div class="user">
+            <div class="tips">click photo to change</div>
+            <div class="tx">
+                <img id="img" src="images/rose2.png" alt="" />
+                <input type="file" onchange="upload(this)" id="head">
+            </div>
+        </div>
+
+        <div class="login">
+            <div class="form" id="edit_info">
+                <form action="" id="sing_in">
+                    <input hidden name="head" value="">
+                    <div class="item">
+                        <p>Name</p>
+                        <input type="text" name="nickname" placeholder="Type your name" />
+                    </div>
+                    <div class="item">
+                        <p>Gender</p>
+                        <input type="text" name="sex" placeholder="Type your gender" />
+                    </div>
+                    <div class="item">
+                        <p>Age</p>
+                        <input type="text" name="age" placeholder="Type your age" />
+                    </div>
+                    <div class="item">
+                        <p>Email</p>
+                        <input type="text" name="email" placeholder="Type your email" />
+                    </div>
+                    <div class="item">
+                        <p>Status</p>
+                        <input type="text" name="status" placeholder="Type your new status" />
+                    </div>
+                    <div class="item">
+                        <p>Location</p>
+                        <input type="text" name="location" placeholder="Type your location" />
+                    </div>
+
+                    <div class="item text-center" style="border: 0;">
+                        <button type="submit">Commit</button>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+  </body>
+  <script src="./js/jquery-3.4.1.min.js"></script>
+  <script src="./js/upload.js"></script>
+  <script src="./js/setting.js"></script>
+  <script>
+      $.ajax({
+          url:"api.php",
+          type: "post",
+          data: {
+              type: "edit_info"
+          },
+          success: function (res) {
+              var res = JSON.parse(res);
+              if(res.code == 1){
+                  var data = res.data;
+                  $("input[name='age']").val(data.age);
+                  $("input[name='nickname']").val(data.nickname)
+                  $("input[name='email']").val(data.email)
+                  $("input[name='sex']").val(data.sex)
+                  $("input[name='location']").val(data.location)
+                  $("input[name='status']").val(data.status)
+
+                  $("input[name='head']").val(data.head)
+                  $(".user img").attr("src", data.head)
+              }else if(res.code == -1){
+                  window.location.replace("sign_in.html")
+              }
+          }
+      })
+  </script>
+</html>

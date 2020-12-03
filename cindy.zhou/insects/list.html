@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>list</title>
+  <link rel="stylesheet" href="css/reset.css" />
+  <link rel="stylesheet" href="css/swiper.min.css">
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+
+<body>
+  <div class="list">
+    <div class="header">
+      Insects List
+       <a href="location.html"><img src="images/add.png" alt="" /></a>
+    </div>
+
+    <div class="content">
+      <div class="swiper-container menu">
+        <div class="swiper-wrapper">
+          <a href="javascrip:void(0)" onclick="getList('')" class="swiper-slide on">All</a>
+          <a href="javascrip:void(0)" onclick="getList('Harmful')" class="swiper-slide">Harmful</a>
+          <a href="javascrip:void(0)" onclick="getList('Harmless')" class="swiper-slide">Harmless</a>
+          <a href="javascrip:void(0)" onclick="getList('Fly')" class="swiper-slide">Fly</a>
+          <a href="javascrip:void(0)" onclick="getList('Climb')" class="swiper-slide">Climb</a>
+        </div>
+      </div>
+
+      <div class="prods">
+
+<!--        <div class="item">-->
+<!--          <div class="img"><img src="images/logo.png" alt=""></div>-->
+<!--          <div class="txt">-->
+<!--            <p>Insect</p>-->
+<!--            <p>Harmless</p>-->
+<!--            <p>Butterfile</p>-->
+<!--          </div>-->
+<!--        </div>-->
+
+      </div>
+    </div>
+
+    <div class="bottom">
+      <a href="index.html"><img src="images/map.png" alt="" /></a>
+      <a href="javascript:void(0);"><img src="images/list.png" alt="" /></a>
+      <a href="user.html"><img src="images/user.png" alt="" /></a>
+    </div>
+  </div>
+
+  <script src="js/swiper.min.js"></script>
+  <script src="js/jquery-3.4.1.min.js"></script>
+  <script>
+    var mySwiper = new Swiper('.swiper-container', {
+      slidesPerView: 4,
+    })
+
+    $(".content .menu .swiper-wrapper").on("click", "a", function () {
+        $(".content .menu .swiper-wrapper a").removeClass("on");
+        $(this).addClass("on")
+    })
+
+    getList('');
+    function getList(types) {
+
+        $.ajax({
+            url: "api.php",
+            type: "post",
+            data: {
+                types: types,
+                type: "getList"
+            },
+            success: function (res) {
+                var res = JSON.parse(res);
+                if(res.code == 1){
+                    var data = res.data;
+                    if(data.length > 0){
+                        var html = "";
+                        for (var i = 0; i < data.length; i++){
+                            html += `<div class="item">
+                              <a href="insects.html?id=`+parseInt(data[i]["id"])+`" class="img"><img src="`+data[i]["img"]+`" alt=""></a>
+                              <div class="txt">
+                                <p>`+data[i]["title"]+`</p>
+                                <p>`+data[i]["types"]+`</p>
+                                <p>`+data[i]["characters"]+`</p>
+                              </div>
+                            </div>`;
+                        }
+                        $(".prods").html(html);
+                    }else{
+                        $(".prods").html("No Data")
+                    }
+                }else if(res.code == -1){
+                    window.location.replace("sign_in.html")
+                }
+            }
+        })
+    }
+  </script>
+</body>
+
+</html>

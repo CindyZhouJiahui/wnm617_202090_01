@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Setting</title>
+    <link rel="stylesheet" href="css/reset.css" />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <div class="detail">
+      <div class="header">
+          <a href="javascript:history.go(-1);"><img src="images/return.png" alt=""></a>
+          Change Password
+      </div>
+
+        <div class="login">
+            <div class="form" id="edit_pass">
+                <form id="sing_in">
+                    <div class="item">
+                        <p>Old Password</p>
+                        <input type="password" name="old_password" placeholder="Type your old password" />
+                    </div>
+                    <div class="item">
+                        <p>New Password</p>
+                        <input type="password" name="password" placeholder="Type your new password" />
+                    </div>
+                    <div class="item">
+                        <p>Confirm Password</p>
+                        <input type="password" name="new_password" placeholder="Type your new password" />
+                    </div>
+                    <div class="item text-center" style="border: 0;">
+                        <button type="submit">Commit</button>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+  </body>
+  <script src="./js/jquery-3.4.1.min.js"></script>
+  <script src="./js/setting.js"></script>
+</html>

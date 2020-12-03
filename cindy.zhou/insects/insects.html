@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Insects</title>
+    <link rel="stylesheet" href="css/reset.css" />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+
+  <body>
+    <div class="detail">
+      <div class="header">
+          <a href="javascript:history.go(-1);"><img src="images/return.png" alt=""></a>
+          <span></span>
+      </div>
+      <div class="img" style="text-align: center; margin: 15px auto;"><img src="" alt="" style="width: 200px"/></div>
+      <div class="types" style="text-align: center; color: #ffffff;"></div>
+      <div class="desc" style="color: #ffffff;"></div>
+
+      <div onclick="del()" style="background-color: #f29b0f;border: 2px solid #534838;font-size: 16px;padding: 5px 15px;border-radius: 10px;color: #333;width: 55px;text-align: center;margin: 0 auto;">Delete</div>
+    </div>
+
+
+  </body>
+
+  <script src="./js/jquery-3.4.1.min.js"></script>
+  <script src="./js/function.js"></script>
+  <script>
+      var id = getQueryVariable("id");
+      if(!id){
+          history.go(-1);
+      }
+
+      $.ajax({
+          url: "api.php",
+          type: "post",
+          data: {
+              id: id,
+              type: "show"
+          },
+          success: function (res) {
+              var res = JSON.parse(res);
+              if(res.code == 1){
+                  $(".detail .img img").attr("src", res.data.img);
+                  $(".detail .header span").text(res.data.title);
+                  $(".detail .types").html(res.data.characters+"("+res.data.types+")");
+                  $(".detail .desc").html(res.data.des);
+              }else if(res.code == -1){
+                  window.location.href = "sign_in.html";
+              }else{
+                  history.go(-1);
+              }
+          }
+      })
+
+    function del() {
+        $.ajax({
+            url: "api.php",
+            type: "post",
+            data: {
+                id: id,
+                type: "del"
+            },
+            success: function (res) {
+                var res = JSON.parse(res);
+                if(res.code == 1){
+                    history.go(-1);
+                } else if(res.code == -1){
+                    window.location.href = "sign_in.html";
+                }else{
+                    alert(res.msg)
+                }
+            }
+        })
+    }
+  </script>
+</html>

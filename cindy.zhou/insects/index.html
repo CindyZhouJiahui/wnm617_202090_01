@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>map</title>
+    <link rel="stylesheet" href="css/reset.css" />
+    <link rel="stylesheet" href="css/style.css" />
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCsSARUGfoHsI5fZlpqgqWqatMBNe3HJ5c&callback=initMap&libraries=&v=weekly" defer></script>
+  </head>
+  <body>
+    <div class="mapWrap">
+        <div class="search">
+            <input name="search" value="" placeholder="Search for eif">
+            <img src="./images/search.png" onclick="initMap()">
+        </div>
+
+      <div class="content" id="map"></div>
+
+        <style>
+            .map-tips-box{
+                width: 200px;
+                padding: 10px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                color: #F4A41D;
+            }
+
+            .map-tips-box img {
+                width: 120px;
+                height: 120px;
+            }
+
+            .map-tips-box .title {
+                font-size: 16px;
+                font-weight: 900;
+            }
+        </style>
+
+      <div class="bottom">
+        <a href="#"><img src="images/map.png" alt="" /></a>
+        <a href="list.html"><img src="images/list.png" alt="" /></a>
+        <a href="user.html"><img src="images/user.png" alt="" /></a>
+      </div>
+    </div>
+  </body>
+  <script src="./js/jquery-3.4.1.min.js"></script>
+  <script src="./js/function.js"></script>
+<script>
+    function initMap() {
+        const myLatlng = {
+            lat: 37.75652184774433,
+            lng: -122.44141350077723
+        };
+        const map = new google.maps.Map(document.getElementById("map"), {
+            zoom: 6,
+            center: myLatlng,
+            disableDefaultUI:true,
+        });
+
+        //search
+        var search =  $("input[name='search']").val().trim();
+        // const marker = new google.maps.Marker({
+        //     map: map
+        // });
+        $.ajax({
+            url: "api.php",
+            type: "post",
+            data: {
+                search: search,
+                type: "search"
+            },
+            success: function (res) {
+                var res = JSON.parse(res);
+                if(res.code == 1){
+                    var data = res.data;
+                    for (var i = 0; i < data.length; i++){
+                        if(!data[i].coordinate){
+                          continue;
+                        }
+                        var coordinate = data[i].coordinate.split(',');
+                        const marker = new google.maps.Marker({
+                            position: new google.maps.LatLng(coordinate[0],coordinate[1]),
+                            icon: {
+                                url: window.location.protocol+"//"+window.location.host+"/"+data[i].img,
+                                scaledSize: {
+                                    width:40,
+                                    height:40
+                                }
+                            },
+                            map: map,
+                        });
+                        // addClick
+                        marker.addListener("click", () => {
+                            infowindow.open(map, marker);
+                        });
+                        const infowindow = new google.maps.InfoWindow({
+                            content: `<div class="map-tips-box">
+                                        <img src="`+data[i].img+`">
+                                        <div class="title">`+data[i].title+`（`+data[i].types+`）</div>
+                                        <div class="characters">`+data[i].characters+`</div>
+                                        <div class="des">`+data[i].des+`</div>
+                                    </div>`,
+                        });
+                    }
+
+                }else if(res.code == -1){
+                    window.location.replace("sign_in.html")
+                }else{
+                    alert("error")
+                }
+            }
+        })
+
+
+    }
+</script>
+
+</html>
