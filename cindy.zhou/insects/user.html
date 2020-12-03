@@ -59,7 +59,10 @@
                   $("#sex").text(data.sex)
                   $("#location").text(data.location)
                   $("#status").text(data.status)
-                  $(".user #img").attr("src", data.head)
+
+                  if(data.head){
+                      $(".user #img").attr("src", data.head)
+                  }
               }else{
                   window.location.href = "sign_in.html";
               }

@@ -82,8 +82,10 @@
                   $("input[name='location']").val(data.location)
                   $("input[name='status']").val(data.status)
 
-                  $("input[name='head']").val(data.head)
                   $(".user img").attr("src", data.head)
+                  if(data.head){
+                      $("input[name='head']").val(data.head)
+                  }
               }else if(res.code == -1){
                   window.location.replace("sign_in.html")
               }
