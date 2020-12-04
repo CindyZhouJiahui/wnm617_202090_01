@@ -38,7 +38,7 @@ $('#sing_in').submit(function(e) {
             if(res.code == 1){
                 alert(res.msg)
                 setTimeout(function () {
-                    window.location.href="user.html";
+                    window.location.href="index.html";
                 },1000)
             }else{
                 alert(res.msg)
