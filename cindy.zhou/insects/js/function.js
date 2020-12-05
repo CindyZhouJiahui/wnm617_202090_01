@@ -55,7 +55,7 @@ function add_prod() {
             coordinate: coordinate,
             types: types,
             characters: characters,
-            type: "addPord"
+            type: "addEif"
         },
         success: function (res) {
             var res = JSON.parse(res);

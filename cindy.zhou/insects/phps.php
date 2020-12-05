@@ -283,11 +283,11 @@ class phps
 
     public function edit_info(){
         $user = $this->getUser();
-
+        
         if(isset($_POST["nickname"])){
             $sql = "UPDATE user_tracking SET nickname='".$_POST["nickname"]."', head='".$_POST["head"]."',
              age='".$_POST["age"]."', sex='".$_POST["sex"]."', email='".$_POST["email"]."', 
-             location='".$_POST["location"]."', status='".$_POST["status"]."' WHERE id=1";
+             location='".$_POST["location"]."', status='".$_POST["status"]."' WHERE id=".$user["id"];
 
             $result = $this->db->query($sql);
             if ($result) {
