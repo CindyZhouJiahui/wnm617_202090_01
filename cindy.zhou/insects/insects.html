@@ -6,6 +6,7 @@
     <title>Insects</title>
     <link rel="stylesheet" href="css/reset.css" />
     <link rel="stylesheet" href="css/style.css" />
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCsSARUGfoHsI5fZlpqgqWqatMBNe3HJ5c&callback=initMap&libraries=&v=weekly" defer></script>
   </head>
 
   <body>
@@ -13,12 +14,15 @@
       <div class="header">
           <a href="javascript:history.go(-1);"><img src="images/return.png" alt=""></a>
           <span></span>
+          <a href="javascript:edit();" style="right: 12px; left: auto" ><img src="images/edit.png" alt="" style="width: 35px;"/></a>
       </div>
       <div class="img" style="text-align: center; margin: 15px auto;"><img src="" alt="" style="width: 200px"/></div>
       <div class="types" style="text-align: center; color: #ffffff;"></div>
       <div class="desc" style="color: #ffffff;"></div>
 
       <div onclick="del()" style="background-color: #f29b0f;border: 2px solid #534838;font-size: 16px;padding: 5px 15px;border-radius: 10px;color: #333;width: 55px;text-align: center;margin: 0 auto;">Delete</div>
+
+      <div class="content" id="map" style="height: 300px; width: 100%; margin-top: 10px"></div>
     </div>
 
 
@@ -27,32 +31,60 @@
   <script src="./js/jquery-3.4.1.min.js"></script>
   <script src="./js/function.js"></script>
   <script>
-      var id = getQueryVariable("id");
-      if(!id){
-          history.go(-1);
-      }
+    var id = getQueryVariable("id");
+    if(!id){
+      history.go(-1);
+    }
 
+    function initMap() {
       $.ajax({
-          url: "api.php",
-          type: "post",
-          data: {
-              id: id,
-              type: "show"
-          },
-          success: function (res) {
-              var res = JSON.parse(res);
-              if(res.code == 1){
-                  $(".detail .img img").attr("src", res.data.img);
-                  $(".detail .header span").text(res.data.title);
-                  $(".detail .types").html(res.data.characters+"("+res.data.types+")");
-                  $(".detail .desc").html(res.data.des);
-              }else if(res.code == -1){
-                  window.location.href = "sign_in.html";
-              }else{
-                  history.go(-1);
-              }
+        url: "api.php",
+        type: "post",
+        data: {
+          id: id,
+          type: "show"
+        },
+        success: function (res) {
+          var res = JSON.parse(res);
+
+          if(res.code == 1){
+            $(".detail .img img").attr("src", res.data.img);
+            $(".detail .header span").text(res.data.title);
+            $(".detail .types").html(res.data.characters+"("+res.data.types+")");
+            $(".detail .desc").html(res.data.des);
+            $(".detail .img img").attr("src", res.data.img);
+
+            var coordinate = res.data.coordinate.split(',');
+            const myLatlng = {
+              lat: parseFloat(coordinate[0]),
+              lng: parseFloat(coordinate[1])
+            };
+            const map = new google.maps.Map(document.getElementById("map"), {
+              zoom: 6,
+              center: myLatlng,
+              disableDefaultUI:true,
+            });
+
+            const marker = new google.maps.Marker({
+              position: new google.maps.LatLng(coordinate[0],coordinate[1]),
+              icon: {
+                url: res.data.img,
+                scaledSize: {
+                  width:40,
+                  height:40
+                }
+              },
+              map: map,
+            });
+          }else if(res.code == -1){
+            window.location.href = "sign_in.html";
+          }else{
+            history.go(-1);
           }
+
+        }
       })
+    }
 
     function del() {
         $.ajax({
@@ -73,6 +105,10 @@
                 }
             }
         })
+    }
+
+    function edit() {
+      window.location.href = "edit_location.html?id="+id;
     }
   </script>
 </html>

@@ -140,7 +140,8 @@ class phps
     }
 
     public function show($id){
-        $sql = "select * from insect_tracking where id = '$id'";
+        $sql = "SELECT it.*, tl.coordinate FROM insect_tracking it 
+                    LEFT JOIN trancking_location tl ON it.id = tl.insect_tracking_id AND it.id = '$id'";
         $result = $this->db->query($sql);
         $is =  mysqli_fetch_array($result, MYSQLI_ASSOC);
 
@@ -183,35 +184,37 @@ class phps
         }
     }
 
-    public function edit(){
+    public function editEif(){
         if($_POST){
             $id = $_POST["id"];
             $img = $_POST["img"];
             $title = $_POST["title"];
-            $des = $_POST["des"];
+            $des =  addslashes($_POST["des"]);
+            $characters = $_POST["characters"];
             $coordinate = $_POST["coordinate"];
             $types = $_POST["types"];
 
-            $sql = "UPDATE insect_tracking SET img='".$img."', title='".$title."', des= '".$des."', coordinate= '".$coordinate."', types= '".$types."' WHERE id=".$id;
 
+            $sql = "UPDATE insect_tracking SET img='$img', title='$title', des='$des', characters='$characters', types='$types' WHERE id=".$id;
             $result = $this->db->query($sql);
 
-            if ($result) {
+            $sql = "UPDATE trancking_location SET coordinate='$coordinate' WHERE insect_tracking_id=".$id;
+            $result2 = $this->db->query($sql);
+
+            if ($result || $result2) {
                 $rt = [
                     "code" => 1,
                     "msg" => "success",
                     "data" => ""
                 ];
-                echo json_encode($rt);
-                die;
+                return json_encode($rt);
             }else{
                 $rt = [
                     "code" => 0,
                     "msg" => "error",
                     "data" => ""
                 ];
-                echo json_encode($rt);
-                die;
+                return json_encode($rt);
             }
         }
     }

@@ -17,6 +17,7 @@
           </div>
 
           <div class="user-box">
+              <div>Username：<span id="username"></span></div>
               <div>Name：<span id="nickname"></span></div>
               <div>Gender：<span id="sex"></span></div>
               <div>Age：<span id="age"></span></div>
@@ -59,6 +60,7 @@
                   $("#sex").text(data.sex)
                   $("#location").text(data.location)
                   $("#status").text(data.status)
+                  $("#username").text(data.username)
 
                   if(data.head){
                       $(".user #img").attr("src", data.head)

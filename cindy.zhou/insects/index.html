@@ -96,7 +96,7 @@
                             infowindow.open(map, marker);
                         });
                         const infowindow = new google.maps.InfoWindow({
-                            content: `<div class="map-tips-box">
+                            content: `<div class="map-tips-box" onclick="insects(`+parseInt(data[i]["id"])+`)">
                                         <img src="`+data[i].img+`">
                                         <div class="title">`+data[i].title+`（`+data[i].types+`）</div>
                                         <div class="characters">`+data[i].characters+`</div>
@@ -112,8 +112,10 @@
                 }
             }
         })
+    }
 
-
+    function insects(id) {
+      window.location.href = "insects.html?id="+id;
     }
 </script>
 

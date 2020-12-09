@@ -11,7 +11,7 @@
     <div class="addProd">
       <div class="header">
           <a href="javascript:history.go(-1);"><img src="images/return.png" alt=""></a>
-          Add Elf
+          Edit Elf
       </div>
 
       <div class="content">
@@ -100,7 +100,7 @@
 
       <div class="btm">
           <div class="flex-around">
-            <div class="saveBtn" onclick="add_eif()">Save</div>
+            <div class="saveBtn" onclick="edit_eif()">Save</div>
             <div class="cancelBtn" onclick="history.go(-2)">Cancel</div>
           </div>
       </div>
@@ -110,4 +110,47 @@
   <script src="./js/jquery-3.4.1.min.js"></script>
   <script src="./js/upload.js"></script>
   <script src="./js/function.js"></script>
+  <script>
+    var id = getQueryVariable("id");
+    if(!id){
+      history.go(-1);
+    }
+
+    $.ajax({
+      url: "api.php",
+      type: "post",
+      data: {
+        id: id,
+        type: "show"
+      },
+      success: function (res) {
+        var res = JSON.parse(res);
+
+        if(res.code == 1){
+          var data = res.data;
+          $("input[name='img']").val(data.img);
+          $("#pro_img").html('<img src="'+data.img+'">');
+          $("input[name='title']").val(data.title);
+          $("input[name='characters']").val(data.characters);
+          $("#des").val(data.des);
+
+          var types_arr = data.types.split(',');
+          var types = $("#types input");
+
+          for (var i = 0; i < types_arr.length; i++) {
+            for (var x = 0; x < types.length; x++){
+              if(types[x].value == types_arr[i]){
+                $(types[i]).prop('checked',true);
+              }
+            }
+          }
+
+        }else if(res.code == -1){
+          window.location.href = "sign_in.html";
+        }else{
+          history.go(-1);
+        }
+      }
+    })
+  </script>
 </html>

@@ -24,6 +24,9 @@ switch ($type)
     case "addEif":
         echo $phps->addEif();
         break;
+    case "editEif":
+        echo $phps->editEif();
+        break;
     case "getList":
         $types = $_POST['types'];
         echo $phps->getList($types);
