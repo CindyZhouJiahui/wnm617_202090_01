@@ -1,11 +1,3 @@
--- phpMyAdmin SQL Dump
--- version 4.9.4
--- https://www.phpmyadmin.net/
---
--- 主机： localhost:3306
--- 生成日期： 2020-12-07 08:12:25
--- 服务器版本： 5.6.49-cll-lve
--- PHP 版本： 7.3.6
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -13,19 +5,14 @@ START TRANSACTION;
 SET time_zone = "+00:00";
 
 
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
 
---
--- 数据库： `insects_sql`
+
+-- `insects_sql`
 --
 
 -- --------------------------------------------------------
 
---
--- 表的结构 `insect_tracking`
+--`insect_tracking`
 --
 
 CREATE TABLE `insect_tracking` (
@@ -38,8 +25,7 @@ CREATE TABLE `insect_tracking` (
   `characters` varchar(255) DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
---
--- 转存表中的数据 `insect_tracking`
+--`insect_tracking`
 --
 
 INSERT INTO `insect_tracking` (`id`, `img`, `title`, `des`, `types`, `coordinatesss`, `characters`) VALUES
@@ -55,8 +41,7 @@ INSERT INTO `insect_tracking` (`id`, `img`, `title`, `des`, `types`, `coordinate
 
 -- --------------------------------------------------------
 
---
--- 表的结构 `trancking_location`
+-- `trancking_location`
 --
 
 CREATE TABLE `trancking_location` (
@@ -65,8 +50,7 @@ CREATE TABLE `trancking_location` (
   `coordinate` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- 转存表中的数据 `trancking_location`
+--`trancking_location`
 --
 
 INSERT INTO `trancking_location` (`id`, `insect_tracking_id`, `coordinate`) VALUES
@@ -107,8 +91,7 @@ CREATE TABLE `user_tracking` (
   `location` varchar(255) DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
---
--- 转存表中的数据 `user_tracking`
+--`user_tracking`
 --
 
 INSERT INTO `user_tracking` (`id`, `username`, `email`, `password`, `head`, `sex`, `age`, `nickname`, `status`, `location`) VALUES
@@ -124,45 +107,37 @@ INSERT INTO `user_tracking` (`id`, `username`, `email`, `password`, `head`, `sex
 (0000000010, 'fre', 'fer@gmai.com', '22c276a05aa7c90566ae2175bcc2a9b0', NULL, NULL, NULL, NULL, NULL, NULL);
 
 --
--- 转储表的索引
 --
 
---
--- 表的索引 `insect_tracking`
+-- `insect_tracking`
 --
 ALTER TABLE `insect_tracking`
   ADD PRIMARY KEY (`id`);
 
---
--- 表的索引 `trancking_location`
+-- `trancking_location`
 --
 ALTER TABLE `trancking_location`
   ADD PRIMARY KEY (`id`);
 
---
--- 表的索引 `user_tracking`
+--`user_tracking`
 --
 ALTER TABLE `user_tracking`
   ADD PRIMARY KEY (`id`);
 
 --
--- 在导出的表使用AUTO_INCREMENT
 --
 
---
--- 使用表AUTO_INCREMENT `insect_tracking`
+--AUTO_INCREMENT `insect_tracking`
 --
 ALTER TABLE `insect_tracking`
   MODIFY `id` int(10) UNSIGNED ZEROFILL NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
---
--- 使用表AUTO_INCREMENT `trancking_location`
+--AUTO_INCREMENT `trancking_location`
 --
 ALTER TABLE `trancking_location`
   MODIFY `id` int(11) UNSIGNED ZEROFILL NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
---
--- 使用表AUTO_INCREMENT `user_tracking`
+--AUTO_INCREMENT `user_tracking`
 --
 ALTER TABLE `user_tracking`
   MODIFY `id` int(10) UNSIGNED ZEROFILL NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
